@@ -594,7 +594,7 @@ Change in property detected, notifying subscribers
 Program ended with exit code: 0
 ````
 
-As you can see our observer correctly detects changes to mechanic's status, it correctly sends it notifications to its subscribers. Our ZipcodePriceManager subscriber correctly consumes the notifications and sets the prices for each zip code accordingly.
+As you can see our observer correctly detects changes to mechanic's status, it correctly sends its notifications to its subscribers. Our ZipcodePriceManager subscriber correctly consumes the notifications and sets the prices for each zip code accordingly.
 
 Congratulations you have just implemented the Observer Design Pattern to solve a nontrivial problem. 
 
