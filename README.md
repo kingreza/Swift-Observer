@@ -13,7 +13,7 @@ Let's begin:
 
 First off lets define our Zipcode object
 
-[code]
+````swift
 import Foundation
 
 class Zipcode{
@@ -29,24 +29,24 @@ class Zipcode{
     self.adjustment = 0.0
   }
 }
-[/code]
+````
 
 We define a Zipcode to have a value which stands for the general zip code value (94043, 90210 etc). We define a baseRate and adjustment property of types double and define a rate property which is computed from baseRate and adjustments.
 
 Next we will define our mechanic's status as an enumerable
 
-[code]
+````swift
 import Foundation
 enum Status: Int{
   case Idle = 1, OnTheWay, Busy
 }
-[/code]
+````
 
 We will define three different statuses. Idle, OnTheWay and Busy. Idle is considered available supply whereas OnTheWay and Busy are not.
 
 Now lets define our Mechanic object
 
-[code]
+````swift
 class Mechanic{
 
   let name: String
@@ -59,13 +59,13 @@ class Mechanic{
     self.zipcode = location
   }
 }
-[/code]
+````
 
 A mechanic for our case has a name and a zip code which is his/her area of operation. A mechanic also has a status property of type Status which is initialized to Idle
 
 Next we will define a protocol which our observer will implement.
 
-[code]
+````swift
 import Foundation
 
 protocol Observer: class{
@@ -77,20 +77,20 @@ protocol Observer: class{
 
   func unsubscribe(subscriber: Subscriber)
 }
-[/code]
+````
 
 Our observer needs to have a propertyChanged method which is called when an observing property is changed. This method will have the name of the property changed, its old and new values along with any other optional values we want to pass in a key-value dictionary. Our protocol also needs to have a collection of subscribers which will consume these changes and methods for subscribing and unsubscribing from this collection.
 
 Now lets define a protocol for our subscribers. This protocol sets all the requirements needed for classes which will subscribe and consume notifications from our observer
 
-[code]
+````swift
 import Foundation
 
 protocol Subscriber: class{
   var properties : [String] {get set}
   func notify(oldValue: Int, newValue: Int, options: [String:String]?)
 }
-[/code]
+````
 
 First we define a collection of properties which our subscriber is interested in. Our observer will send its notification to this subscriber when any of the changing properties matches one listed in this collection. For the sake brevity this collection is of type String where the values are simple names of properties. Within more complex systems this collection can be of a well defined property type.
 
@@ -98,7 +98,7 @@ We also define a notify function which will be called by our observer along with
 
 Next we will define a MechanicObserver which will implement our Observer protocol.
 
-[code]
+````swift
 import Foundation
 
 class MechanicObserver: Observer{
@@ -119,27 +119,27 @@ class MechanicObserver: Observer{
     subscribers = subscribers.filter({$0 !== subscriber})
   }
 }
-[/code]
+````
 
 The MechanicObserver will have a collection of subscriber with simple methods for adding and removing them from the collection through subscribe and unsubscribe functions.
 
 The most interesting part of our code perhaps starts in the propertyChanged function. Let's go over it line by line
 
-[code]
+````swift
 print("Change in property detected, notifying subscribers")
-[/code]
+````
 
 We output a simple message to the console informing the user that a change in property has been detected by the observer.
 
-[code]
+````swift
 let matchingSubscribers = subscribers.filter({$0.properties.contains(propertyName)})
-[/code]
+````
 
 Next we will filter out subscribers that are interested on the property that has been modified. As we showed earlier in our subscriber protocol every subscriber has a collection of property names it wishes to be notified about. We find subscribers that match up with the propertyName that has been modified.
 
-[code]
+````swift
 matchingSubscribers.forEach({$0.notify(propertyName, oldValue: oldValue, newValue: newValue, options: options)})
-[/code]
+````
 
 Next for every subscriber that matched with that property name, we call its notify method with all the data that was passed to the observer.
 
@@ -147,7 +147,7 @@ This is pretty much it.
 
 Now that our observer is set up lets change our mechanic model so its status property is observed by our observer.
 
-[code]
+````swift
 import Foundation
 
 class Mechanic{
@@ -168,7 +168,7 @@ class Mechanic{
     self.zipcode = location
   }
 }
-[/code]
+````
 
 So we added an observer property to our mechanic. Next we changed the definition of our status property to executes our observer's propertyChange method when its value is set.
 
@@ -180,7 +180,7 @@ For the last piece of the puzzle we need to implement our subscriber. Since this
 
 First let's define a ZipcodePriceManager class that will implement our Subscriber protocol.
 
-[code]
+````swift
 import Foundation
 
 class ZipcodePriceManager: Subscriber{
@@ -193,7 +193,7 @@ class ZipcodePriceManager: Subscriber{
     self.supply = supply
   }
  func notify(propertyName: String, oldValue: Int, newValue: Int, options: [String:String]?){}
-[/code]
+````
 
 In our definition we can see that ZipcodePriceManager implements subscriber, it defines a properties collection that is initialized to an array which holds one value "Status". Since this class only needs the mechanic's Status to determine zip code's rates we will only monitor that property. (It is also the case we are not observing any other property in our Mechanic's class, however extending the observer to monitor more properties and our subscribers to consume a more diverse set of properties is a trivial process.)
 
@@ -205,7 +205,7 @@ When we define our supply this way, Swift will complain about our Zipcode object
 
 So we change our Zipcode class to be:
 
-[code]
+````swift
 
 import Foundation
 
@@ -232,7 +232,7 @@ class Zipcode: Hashable, Equatable{
 func == (lhs: Zipcode, rhs: Zipcode) -> Bool {
   return lhs.value == rhs.value
 }
-[/code]
+````
 
 We added a hashValue function that returns an Int. Since our Zipcode value will be unique for each Zipcode and since String already implements Hashable we can return our Zipcode's value.hashValue.
 
@@ -240,7 +240,7 @@ we also define == operator for Zipcode to compare Zipcode's value for equality. 
 
 Alright let's get back to our ZipcodePriceManager. Next we will implement our notify function. We want our ZipcodePriceManager subscriber to consumer its notifications so that every change to a mechanic's status will increase and decrease the zipcode number of supply.
 
-[code]
+````swift
   func notify(propertyName: String, oldValue: Int, newValue: Int, options: [String:String]?){
     if properties.contains(propertyName){
        print("\(propertyName) is changed from \(Status(rawValue: oldValue)!) to \(Status(rawValue: newValue)!)")
@@ -260,51 +260,51 @@ Alright let's get back to our ZipcodePriceManager. Next we will implement our no
       }
     }
   }
-[/code]
+````
 
 So let's break this down
 
 First we check to make sure the property being changed is included in the list of properties our subscriber is interested in:
 
-[code]
+````swift
 if properties.contains(propertyName){
-[/code]
+````
 
 next we prompt the user that our subscriber has been notified that a property it is interested in has changed:
 
-[code]
+````swift
   print("\(propertyName) is changed from \(Status(rawValue: oldValue)!) to \(Status(rawValue: newValue)!)")
-[/code]
+````
 
 Next we check to see if the property changed is "Status". If so unwrap its options and find the Zipcode that was passed from the Mechanic.
 
-[code]
+````swift
   if propertyName == "Status"{
         if let options = options{
           let zipcode = zipcodes.filter({$0.value == options["Zipcode"]}).first
-[/code]
+````
 
 if the Zipcode was found change its supply. If the status is from idle to anything this means an idle mechanic has become busy, then we decrease its value in the supply dictionary. Conversely if the change is from anything else to idle, it means a busy mechanic has become idle so we increase our supply:
 
-[code]
+````swift
  if let zipcode = zipcode{
    if (Status(rawValue: newValue) == Status.Idle && Status(rawValue: oldValue) != Status.Idle){
      supply[zipcode]! += 1
    }else if (Status(rawValue: newValue) != Status.Idle && Status(rawValue: oldValue) == Status.Idle){
      supply[zipcode]! -= 1
 }
-[/code]
+````
 
 Finally we call an updateRate function which will update our Zipcode rates according to the new supplies:
 
-[code]
+````swift
 updateRates()
 print("**********************")
-[/code]
+````
 
 Here is the definition for updateRates() which recalculates and reassigns adjustment ratios to our Zipcodes:
 
-[code]
+````swift
   func updateRates(){
     supply.forEach({(zipcode: Zipcode, supply: Int) in
       if (supply <= 1){
@@ -319,13 +319,13 @@ Here is the definition for updateRates() which recalculates and reassigns adjust
       }
     })
   }
-[/code]
+````
 
 There isn't much here that's related to our Observer design pattern so I'll let you go over it and figure it out.
 
 So when we put it all together, our ZipcodePriceManager ends up looking like this:
 
-[code]
+````swift
 import Foundation
 
 class ZipcodePriceManager: Subscriber{
@@ -373,13 +373,13 @@ class ZipcodePriceManager: Subscriber{
     })
   }
 }
-[/code]
+````
 
 It's important to note that our ZipcodePriceManager knows nothing about our Mechanics, and our Mechanics know nothing about ZipcodePriceManager, Supplies or a the collection of our serving zip codes. Also our MechanicObserver, although named MechanicObserver has no reference to a Mechanic.
 
 Lets define our Main function and test it out
 
-[code]
+````swift
 
 import Foundation
 
@@ -435,22 +435,22 @@ observer.unsubscribe(priceManager)
 print("unsubscribed")
 
 raj.status = .Idle
-[/code]
+````
 
 Alright that was a lot, so lets break it down and go step by step. First off we set our Zipcodes:
 
-[code]
+````swift
 var mountainView = Zipcode(value: "94043", baseRate: 40.00)
 var redwoodCity = Zipcode(value: "94063", baseRate: 30.00)
 var paloAlto = Zipcode(value: "94301", baseRate: 50.00)
 var sunnyvale = Zipcode(value: "94086", baseRate: 35.00)
 
 var zipcodes : Set<Zipcode> = [mountainView, redwoodCity, paloAlto, sunnyvale]
-[/code]
+````
 
 Next we set our Mechanics:
 
-[code]
+````swift
 var steve = Mechanic(name: "Steve Akio", location: mountainView)
 var joe = Mechanic(name: "Joe Jackson", location: redwoodCity)
 var jack = Mechanic(name: "Jack Joesph", location: redwoodCity)
@@ -468,31 +468,31 @@ var raj = Mechanic(name: "Raj Sundeep", location: sunnyvale)
 var bob = Mechanic(name: "Bob Anderson", location: mountainView)
 
 var mechanics = [steve, joe, jack, john, trevor, brian, tom, mike, jane, ali, sam, reza, max, raj, bob]
-[/code]
+````
 
 Next we calculate our supply dictionary and setting up our ZipcodePriceManager subscriber. The code for the initial supply calculation might seem a bit complicated but it's just the count of all mechanics that have their status set to idle for each zipcode. Play around with it a bit if you're new to closures.
 
-[code]
+````swift
 var supply: [Zipcode: Int] = [:]
 
 zipcodes.forEach({(zipcode: Zipcode) in supply[zipcode] = mechanics.filter({(mechanic:Mechanic) in mechanic.status == Status.Idle && mechanic.zipcode === zipcode}).count})
 
 var priceManager = ZipcodePriceManager(zipcodes: zipcodes, supply: supply)
-[/code]
+````
 
 Next we set up our observer, have our ZipcodePriceManager subscribe to it and have our observer observe all our mechanics:
 
-[code]
+````swift
 let observer = MechanicObserver()
 
 observer.subscribe(priceManager)
 
 mechanics.forEach({$0.observer = observer})
-[/code]
+````
 
 Now everything is setup. Let's get our mechanics to work and see how our zipcode rates change as supplies go up and down
 
-[code]
+````swift
 john.status = .OnTheWay
 steve.status = .OnTheWay
 steve.status = .Busy
@@ -503,22 +503,22 @@ tom.status = .OnTheWay
 reza.status = .OnTheWay
 tom.status = .Busy
 raj.status = .OnTheWay
-[/code]
+````
 
 Note that all we are doing is changing our mechanic's status. We don't call anything else. All of our changes to supply and rates for our zipcodes are taken care of by our observer and subscriber.
 
 As for one last test we unsubscribe our ZipcodePriceManager from the observer and see what happens when we change a mechanic's status:
 
-[code]
+````swift
 observer.unsubscribe(priceManager)
 print("unsubscribed")
 
 raj.status = .Idle
-[/code]
+````
 
 The output we get to the console when we run all of this is:
 
-[code]
+````swift
 Change in property detected, notifying subscribers
 Status is changed from Idle to OnTheWay
 Normal Demand. Adjusting price for 94043: rate is now 40.0 because supply is 6
@@ -592,7 +592,7 @@ Very High Demand! Adjusting price for 94301: rate is now 75.0 because supply is 
 unsubscribed
 Change in property detected, notifying subscribers
 Program ended with exit code: 0
-[/code]
+````
 
 As you can see our observer correctly detects changes to mechanic's status, it correctly sends it notifications to its subscribers. Our <span class="s1">ZipcodePriceManager subscriber correctly consumes the notifications and sets the prices for each zip code accordingly. </span>
 
