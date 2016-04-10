@@ -7,7 +7,7 @@ We will set up an observer that will monitor the status of each mechanic. This o
 
 Link to the repo for the completed project: <a href="https://github.com/kingreza/Swift-Observer">Swift - Observer</a>
 
-Although there are quite a few examples of the Observer design pattern in iOS (NSNotificationCenter comes to mind) we will be building our own solution from ground up. So this will be a console project (OSX Command line tool). If interested in an <a href="https://www.raywenderlich.com/90773/introducing-ios-design-patterns-in-swift-part-2">iOS focused example click here </a>
+Although there are quite a few examples of the Observer design pattern in iOS (NSNotificationCenter comes to mind) we will be building our own solution from ground up. So this will be a console project (OSX Command line tool). If interested in an <a href="https://www.raywenderlich.com/90773/introducing-ios-design-patterns-in-swift-part-2">iOS focused example click here </a>Also it's worth noting that in the classic definition of the Observer design pattern, the observer itself consumes the event from the subject, for this example we will be delegating that task to another object that we call the 'subscriber'. This is done better encapsulation and separation of responsibility for this specific problem.  
 
 Let's begin:
 
@@ -121,7 +121,7 @@ class MechanicObserver: Observer{
 }
 ````
 
-The MechanicObserver will have a collection of subscriber with simple methods for adding and removing them from the collection through subscribe and unsubscribe functions.
+The MechanicObserver will have a collection of subscribers with simple methods for adding and removing them from the collection through subscribe and unsubscribe functions.
 
 The most interesting part of our code perhaps starts in the propertyChanged function. Let's go over it line by line
 
@@ -170,7 +170,7 @@ class Mechanic{
 }
 ````
 
-So we added an observer property to our mechanic. Next we changed the definition of our status property to executes our observer's propertyChange method when its value is set.
+We add an observer property to our mechanic. Next we changed the definition of our status property to executes our observer's propertyChange method when its value is set.
 
 in Swift willSet and didSet are used to execute specific code before and after a property is changed. <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html">For more info click here</a>.
 
@@ -197,11 +197,11 @@ class ZipcodePriceManager: Subscriber{
 
 In our definition we can see that ZipcodePriceManager implements subscriber, it defines a properties collection that is initialized to an array which holds one value "Status". Since this class only needs the mechanic's Status to determine zip code's rates we will only monitor that property. (It is also the case we are not observing any other property in our Mechanic's class, however extending the observer to monitor more properties and our subscribers to consume a more diverse set of properties is a trivial process.)
 
-Our ZipcodePriceManager also has two properties that are not part of the subscriber protocol: zipcodes and supply. Since our zipcodes will all be unique values and since we don't care about their order, we will define it as a Set type.
+Our ZipcodePriceManager also has two properties that are not part of the subscriber protocol: zipcodes and supply. Since our zipcodes will be all unique values and since we don't care about their order, we will define it as a Set type.
 
 We will also define our supply as a dictionary of key Zipcodes and value Ints. Our unique Zipcodes behaves as a key and the Int value will be the available idle mechanics for that Zipcode. The initial values for these properties will be set by its initializer.
 
-When we define our supply this way, Swift will complain about our Zipcode object. The problem is that our Zipcode object does not implement Hashable and Equatable. Since we are using a Zipcode instance as a key within a dictionary, Swift needs a way to derive a unique value from it. This is something we need to provide Swift. This can be achieved by implementing the Hashable protocol which will require us to add hashValue property which must return a unique integer. We also need to implement the Equatable protocol which tells Swift how two Zipcode are equal. This is a requirement for any object that implements the Hashable protocol.
+When we define our supply this way, Swift will complain about our Zipcode object. The problem is that our Zipcode object does not implement Hashable and Equatable. Since we are using a Zipcode instance as a key within a dictionary, Swift needs a way to derive a unique value from it. This is something we need to provide Swift. This can be achieved by implementing the Hashable protocol which will require us to add a hashValue property which must return a unique integer. We also need to implement the Equatable protocol which Hashable inherits from. Equatable tells Swift how two Zipcode are equal. This is a requirement for any object that implements the Hashable protocol.
 
 So we change our Zipcode class to be:
 
@@ -236,7 +236,7 @@ func == (lhs: Zipcode, rhs: Zipcode) -> Bool {
 
 We added a hashValue function that returns an Int. Since our Zipcode value will be unique for each Zipcode and since String already implements Hashable we can return our Zipcode's value.hashValue.
 
-we also define == operator for Zipcode to compare Zipcode's value for equality. This will make our Zipcode class conform to the Equatable protocol. Note that this is done outside out of Zipcode's class definition. More info on Hashable and Equatable
+we also define == operator for Zipcode to compare Zipcode's value for equality. This will make our Zipcode class conform to the Equatable protocol. Note that this is done outside out of Zipcode's class definition. More info on <a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Hashable_Protocol/index.html">Hashable</a> and <a href="https://developer.apple.com/library/watchos/documentation/Swift/Reference/Swift_Equatable_Protocol/index.html">Equatable</a>
 
 Alright let's get back to our ZipcodePriceManager. Next we will implement our notify function. We want our ZipcodePriceManager subscriber to consumer its notifications so that every change to a mechanic's status will increase and decrease the zipcode number of supply.
 
@@ -270,7 +270,7 @@ First we check to make sure the property being changed is included in the list o
 if properties.contains(propertyName){
 ````
 
-next we prompt the user that our subscriber has been notified that a property it is interested in has changed:
+Next we prompt the user that our subscriber has been notified that a property it is interested in has changed:
 
 ````swift
   print("\(propertyName) is changed from \(Status(rawValue: oldValue)!) to \(Status(rawValue: newValue)!)")
@@ -284,7 +284,7 @@ Next we check to see if the property changed is "Status". If so unwrap its optio
           let zipcode = zipcodes.filter({$0.value == options["Zipcode"]}).first
 ````
 
-if the Zipcode was found change its supply. If the status is from idle to anything this means an idle mechanic has become busy, then we decrease its value in the supply dictionary. Conversely if the change is from anything else to idle, it means a busy mechanic has become idle so we increase our supply:
+if the Zipcode was found, change its supply. If the status is from idle to anything this means an idle mechanic has become busy, then we decrease its value in the supply dictionary. Conversely if the change is from anything else to idle, it means a busy mechanic has become idle so we increase our supply:
 
 ````swift
  if let zipcode = zipcode{
@@ -375,7 +375,7 @@ class ZipcodePriceManager: Subscriber{
 }
 ````
 
-It's important to note that our ZipcodePriceManager knows nothing about our Mechanics, and our Mechanics know nothing about ZipcodePriceManager, Supplies or a the collection of our serving zip codes. Also our MechanicObserver, although named MechanicObserver has no reference to a Mechanic.
+It's important to note that our ZipcodePriceManager knows nothing about our Mechanics, and our Mechanics know nothing about ZipcodePriceManager, Supplies or the collection of our serving zip codes. Also our MechanicObserver, although named MechanicObserver has no reference to a Mechanic.
 
 Lets define our Main function and test it out
 
@@ -594,8 +594,16 @@ Change in property detected, notifying subscribers
 Program ended with exit code: 0
 ````
 
-As you can see our observer correctly detects changes to mechanic's status, it correctly sends it notifications to its subscribers. Our <span class="s1">ZipcodePriceManager subscriber correctly consumes the notifications and sets the prices for each zip code accordingly. </span>
+As you can see our observer correctly detects changes to mechanic's status, it correctly sends it notifications to its subscribers. Our ZipcodePriceManager subscriber correctly consumes the notifications and sets the prices for each zip code accordingly.
 
-<span class="s1">Congratulations you have just implemented the Observer Design Pattern to solve a nontrivial problem. </span>
+Congratulations you have just implemented the Observer Design Pattern to solve a nontrivial problem. 
 
-The repo for the complete project can be found here: <a href="https://github.com/kingreza/Swift-Observer" target="_blank">Swift - Observer</a>. Download a copy of it and play around with it. See if you can find ways to improve its performance, observer more properties and expand on it anyway you like. What if a mechanic can server multiple zipcodes.
+The repo for the complete project can be found here: <a href="https://github.com/kingreza/Swift-Observer">Swift - Observer.</a> 
+
+Download a copy of it and play around with it. See if you can find ways to improve its performance, observer more properties and expand on it anyway you like. Here are some suggestions on how to expand or improve on the project:
+
+<ul>
+  <li>What if a mechanic can server multiple zipcodes</li>
+  <li>How can we improve the updateRates() function</li>
+  <li>How can we add and observe other properties like hoursWorked for overtime calculation, location for when a mechanic is close to a job's location and so on...</li>
+</ul>
