@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		570B75C91CB9AC6800302246 /* zipcode_price_manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570B75C81CB9AC6800302246 /* zipcode_price_manager.swift */; };
 		57C322A91CB7969300C3FFD3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C322A81CB7969300C3FFD3 /* main.swift */; };
+		57C322B01CB7972500C3FFD3 /* mechanic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C322AF1CB7972500C3FFD3 /* mechanic.swift */; };
+		57C322B21CB7975800C3FFD3 /* status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C322B11CB7975800C3FFD3 /* status.swift */; };
+		57C322B61CB799B000C3FFD3 /* observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C322B51CB799B000C3FFD3 /* observer.swift */; };
+		57C322B81CB79A9500C3FFD3 /* mechanic_observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C322B71CB79A9500C3FFD3 /* mechanic_observer.swift */; };
+		57C322BA1CB999CC00C3FFD3 /* zipcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C322B91CB999CC00C3FFD3 /* zipcode.swift */; };
+		57C322BC1CB9A87300C3FFD3 /* subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C322BB1CB9A87300C3FFD3 /* subscriber.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +30,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		570B75C81CB9AC6800302246 /* zipcode_price_manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = zipcode_price_manager.swift; sourceTree = "<group>"; };
 		57C322A51CB7969300C3FFD3 /* Mechanic - Observer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Mechanic - Observer"; sourceTree = BUILT_PRODUCTS_DIR; };
 		57C322A81CB7969300C3FFD3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		57C322AF1CB7972500C3FFD3 /* mechanic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mechanic.swift; sourceTree = "<group>"; };
+		57C322B11CB7975800C3FFD3 /* status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = status.swift; sourceTree = "<group>"; };
+		57C322B51CB799B000C3FFD3 /* observer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = observer.swift; sourceTree = "<group>"; };
+		57C322B71CB79A9500C3FFD3 /* mechanic_observer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mechanic_observer.swift; sourceTree = "<group>"; };
+		57C322B91CB999CC00C3FFD3 /* zipcode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = zipcode.swift; sourceTree = "<group>"; };
+		57C322BB1CB9A87300C3FFD3 /* subscriber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subscriber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +72,13 @@
 			isa = PBXGroup;
 			children = (
 				57C322A81CB7969300C3FFD3 /* main.swift */,
+				57C322AF1CB7972500C3FFD3 /* mechanic.swift */,
+				57C322B11CB7975800C3FFD3 /* status.swift */,
+				57C322B51CB799B000C3FFD3 /* observer.swift */,
+				57C322B71CB79A9500C3FFD3 /* mechanic_observer.swift */,
+				57C322B91CB999CC00C3FFD3 /* zipcode.swift */,
+				57C322BB1CB9A87300C3FFD3 /* subscriber.swift */,
+				570B75C81CB9AC6800302246 /* zipcode_price_manager.swift */,
 			);
 			path = "Mechanic - Observer";
 			sourceTree = "<group>";
@@ -119,7 +140,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				570B75C91CB9AC6800302246 /* zipcode_price_manager.swift in Sources */,
+				57C322BA1CB999CC00C3FFD3 /* zipcode.swift in Sources */,
+				57C322B61CB799B000C3FFD3 /* observer.swift in Sources */,
 				57C322A91CB7969300C3FFD3 /* main.swift in Sources */,
+				57C322B01CB7972500C3FFD3 /* mechanic.swift in Sources */,
+				57C322B21CB7975800C3FFD3 /* status.swift in Sources */,
+				57C322BC1CB9A87300C3FFD3 /* subscriber.swift in Sources */,
+				57C322B81CB79A9500C3FFD3 /* mechanic_observer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +267,7 @@
 				57C322AE1CB7969300C3FFD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
