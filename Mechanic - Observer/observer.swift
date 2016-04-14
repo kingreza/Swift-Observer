@@ -9,11 +9,6 @@
 import Foundation
 
 protocol Observer: class{
-  var subscribers: [Subscriber] {get set}
   
   func propertyChanged(propertyName: String, oldValue: Int, newValue: Int, options: [String:String]?)
-  
-  func subscribe(subscriber: Subscriber)
-  
-  func unsubscribe(subscriber: Subscriber)
 }
