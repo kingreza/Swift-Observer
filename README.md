@@ -82,7 +82,7 @@ protocol Observer: class{
 }
 ````
 
-Our observer needs to have a propertyChanged method which is called when an observing property is changed. This method will have the name of the property changed, its old and new values along with any other optional values we want to pass in a key-value dictionary. Our protocol also needs to have a collection of subscribers which will consume these changes and methods for subscribing and unsubscribing from this collection.
+Our observer needs to have a propertyChanged method which is called when an observing property is changed. This method will have the name of the property changed, its old and new values along with any other optional values we want to pass in a key-value dictionary.
 
 Now lets define a protocol for our subscribers. This protocol sets all the requirements needed for classes which will subscribe and consume notifications from our observer
 
