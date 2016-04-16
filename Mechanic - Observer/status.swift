@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum Status: Int{
+enum Status: Int {
   case Idle = 1, OnTheWay, Busy
 }

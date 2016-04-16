@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Subscriber: class{
-  var properties : [String] {get set}
-  func notify(propertyName: String,oldValue: Int, newValue: Int, options: [String:String]?)
+protocol Subscriber: class {
+  var properties: [String] {get set}
+  func notify(propertyName: String, oldValue: Int, newValue: Int, options: [String:String]?)
 }

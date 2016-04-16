@@ -8,7 +8,8 @@
 
 import Foundation
 
-protocol Observer: class{
-  
-  func propertyChanged(propertyName: String, oldValue: Int, newValue: Int, options: [String:String]?)
+protocol Observer: class {
+
+  func propertyChanged(propertyName: String, oldValue: Int, newValue: Int,
+      options: [String:String]?)
 }

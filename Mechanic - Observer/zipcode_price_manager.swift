@@ -8,26 +8,28 @@
 
 import Foundation
 
-class ZipcodePriceManager: Subscriber{
-  var properties : [String] = ["Status"]
+class ZipcodePriceManager: Subscriber {
+  var properties: [String] = ["Status"]
   var zipcodes: Set<Zipcode>
   var supply: [Zipcode: Int] = [:]
-  
-  init(zipcodes: Set<Zipcode>, supply: [Zipcode: Int]){
+  init(zipcodes: Set<Zipcode>, supply: [Zipcode: Int]) {
     self.zipcodes = zipcodes
     self.supply = supply
   }
-  
-  func notify(propertyName: String, oldValue: Int, newValue: Int, options: [String:String]?){
-    if properties.contains(propertyName){
-       print("\(propertyName) is changed from \(Status(rawValue: oldValue)!) to \(Status(rawValue: newValue)!)")
+
+  func notify(propertyName: String, oldValue: Int, newValue: Int, options: [String:String]?) {
+    if properties.contains(propertyName) {
+      print("\(propertyName) is changed from \(Status(rawValue: oldValue)!)"
+          + " to \(Status(rawValue: newValue)!)")
       if propertyName == "Status"{
-        if let options = options{
+        if let options = options {
           let zipcode = zipcodes.filter({$0.value == options["Zipcode"]}).first
-          if let zipcode = zipcode{
-            if (Status(rawValue: newValue) == Status.Idle && Status(rawValue: oldValue) != Status.Idle){
+          if let zipcode = zipcode {
+            if Status(rawValue: newValue) == Status.Idle
+                && Status(rawValue: oldValue) != Status.Idle {
               supply[zipcode]! += 1
-            }else if (Status(rawValue: newValue) != Status.Idle && Status(rawValue: oldValue) == Status.Idle){
+            } else if Status(rawValue: newValue) != Status.Idle
+                && Status(rawValue: oldValue) == Status.Idle {
               supply[zipcode]! -= 1
             }
             updateRates()
@@ -37,20 +39,21 @@ class ZipcodePriceManager: Subscriber{
       }
     }
   }
-  
-  func updateRates(){
+  func updateRates() {
     supply.forEach({(zipcode: Zipcode, supply: Int) in
-      if (supply <= 1){
+      if supply <= 1 {
         zipcode.adjustment = 0.50
-        print("Very High Demand! Adjusting price for \(zipcode.value): rate is now \(zipcode.rate) because supply is \(supply)")
-      }else if (supply <= 3){
+        print("Very High Demand! Adjusting price for \(zipcode.value):"
+            + " rate is now \(zipcode.rate) because supply is \(supply)")
+      } else if supply <= 3 {
         zipcode.adjustment = 0.25
-        print("High Demand! Adjusting price for \(zipcode.value): rate is now \(zipcode.rate) because supply is \(supply)")
-      }else{
+        print("High Demand! Adjusting price for \(zipcode.value): "
+            + " rate is now \(zipcode.rate) because supply is \(supply)")
+      } else {
         zipcode.adjustment = 0.0
-        print("Normal Demand. Adjusting price for \(zipcode.value): rate is now \(zipcode.rate) because supply is \(supply)")
+        print("Normal Demand. Adjusting price for \(zipcode.value): "
+            + " rate is now \(zipcode.rate) because supply is \(supply)")
       }
     })
   }
 }
-

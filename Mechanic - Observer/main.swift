@@ -13,7 +13,7 @@ var redwoodCity = Zipcode(value: "94063", baseRate: 30.00)
 var paloAlto = Zipcode(value: "94301", baseRate: 50.00)
 var sunnyvale = Zipcode(value: "94086", baseRate: 35.00)
 
-var zipcodes : Set<Zipcode> = [mountainView, redwoodCity, paloAlto, sunnyvale]
+var zipcodes: Set<Zipcode> = [mountainView, redwoodCity, paloAlto, sunnyvale]
 
 var steve = Mechanic(name: "Steve Akio", location: mountainView)
 var joe = Mechanic(name: "Joe Jackson", location: redwoodCity)
@@ -31,11 +31,14 @@ var max = Mechanic(name: "Max Watson", location: sunnyvale)
 var raj = Mechanic(name: "Raj Sundeep", location: sunnyvale)
 var bob = Mechanic(name: "Bob Anderson", location: mountainView)
 
-var mechanics = [steve, joe, jack, john, trevor, brian, tom, mike, jane, ali, sam, reza, max, raj, bob]
+var mechanics = [steve, joe, jack, john, trevor, brian,
+    tom, mike, jane, ali, sam, reza, max, raj, bob]
 
 var supply: [Zipcode: Int] = [:]
 
-zipcodes.forEach({(zipcode: Zipcode) in supply[zipcode] = mechanics.filter({(mechanic:Mechanic) in mechanic.status == Status.Idle && mechanic.zipcode === zipcode}).count})
+zipcodes.forEach({(zipcode: Zipcode) in
+    supply[zipcode] = mechanics.filter({(mechanic: Mechanic) in
+    mechanic.status == Status.Idle && mechanic.zipcode === zipcode}).count})
 
 var priceManager = ZipcodePriceManager(zipcodes: zipcodes, supply: supply)
 

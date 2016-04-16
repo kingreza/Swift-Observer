@@ -8,20 +8,26 @@
 
 import Foundation
 
-class MechanicObserver: Observer{
-  
+class MechanicObserver: Observer {
+
   var subscribers: [Subscriber] = []
-  
-  func propertyChanged(propertyName: String, oldValue: Int, newValue: Int, options:[String:String]?){
+
+  func propertyChanged(propertyName: String,
+      oldValue: Int,
+      newValue: Int,
+      options: [String:String]?) {
     print("Change in property detected, notifying subscribers")
     let matchingSubscribers = subscribers.filter({$0.properties.contains(propertyName)})
-    matchingSubscribers.forEach({$0.notify(propertyName, oldValue: oldValue, newValue: newValue, options: options)})
+
+    matchingSubscribers.forEach({
+        $0.notify(propertyName, oldValue: oldValue, newValue: newValue,
+            options: options)})
   }
-  
-  func subscribe(subscriber: Subscriber){
+
+  func subscribe(subscriber: Subscriber) {
     subscribers.append(subscriber)
   }
-  
+
   func unsubscribe(subscriber: Subscriber) {
     subscribers = subscribers.filter({$0 !== subscriber})
   }

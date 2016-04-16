@@ -8,20 +8,21 @@
 
 import Foundation
 
-class Mechanic{
-  
+class Mechanic {
+
   var observer: Observer?
-  
+
   let name: String
   var zipcode: Zipcode
-  
-  var status: Status = .Idle{
-    didSet{
-      observer?.propertyChanged("Status", oldValue: oldValue.rawValue, newValue: status.rawValue, options: ["Zipcode": zipcode.value])
+
+  var status: Status = .Idle {
+    didSet {
+      observer?.propertyChanged("Status", oldValue: oldValue.rawValue, newValue: status.rawValue,
+          options: ["Zipcode": zipcode.value])
     }
   }
-  
-  init(name: String, location: Zipcode){
+
+  init(name: String, location: Zipcode) {
     self.name = name
     self.zipcode = location
   }
