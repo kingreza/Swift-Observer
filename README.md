@@ -1,6 +1,8 @@
 <h1>Design Patterns in Swift: Observer</h1>
 This repository is part of a series. For the full list check out <a href="https://shirazian.wordpress.com/2016/04/11/design-patterns-in-swift/">Design Patterns in Swift</a>
 
+For a cheat-sheet of design patterns implemented in Swift check out <a href="https://github.com/ochococo/Design-Patterns-In-Swift"> Design Patterns implemented in Swift: A cheat-sheet</a>
+
 <h3>The problem:</h3>
 We have a set of mobile mechanics who are assigned specific zip codes. Each zip code has its own hourly rate. We want to increase and decrease these rates when the number of idle mechanics within a zip code falls or goes above specific thresholds. This way we can proactively set the going rate for each mechanic when demand is high and bring it down when demand is low within a specific zip code.
 <h3>The solution:</h3>
